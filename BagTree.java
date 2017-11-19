@@ -11,12 +11,12 @@ package finalProject;
  
 import java.util.Iterator;
 
-public class BagArray<Item> implements Bag<Item>, Iterable<Item>{
+public class BagTree<Item> implements Bag<Item>, Iterable<Item>{
     
     private Item[] items;        
     private int size;
     
-    public BagArray() {
+    public BagTree() {
         items = (Item[]) (new Object[1]);  
         size = 0; //superfluous
     }

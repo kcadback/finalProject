@@ -6,7 +6,7 @@ public class BreadthFirstTraversal {
     QueueArray<Integer> q = new QueueArray<Integer>();
     
     public BreadthFirstTraversal(Graph g, int source) {
-        visited = new boolean[g.numVertices()];
+        visited = new boolean[g.numNodes()];
         bfs(g,source);
     }
     
