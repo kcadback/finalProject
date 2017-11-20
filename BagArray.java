@@ -44,6 +44,14 @@ public class BagArray<Item> implements Bag<Item>, Iterable<Item>{
         items[size++] = item;
     }
     
+    public void delete(Item item) {
+    	for (int i = 0; i < items.length; i++) {
+    		if( items[i] == item ) {
+    			items[i] = null;
+    		}
+    	}
+    }
+    
     private class BagIterator implements Iterator<Item> {
 
         private int i = 0;

@@ -1,20 +1,20 @@
 package finalProject;
-public class Graph {
+public class Graph<Node extends RedBlackBST> {
 
-	private int numNodes;;
+	private int numNodes;
 	private int numEdges;
-	private Bag<Integer>[] adj;
+	private Bag<Node>[] adj;
 	
-	public Graph(int numVertices) {
-		initializeEmptyGraph(numVertices);
+	public Graph(int numNodes) {
+		initializeEmptyGraph(numNodes);
 	}
 	
-	private void initializeEmptyGraph(int numVertices) {
-		this.numNodes = numVertices;
+	private void initializeEmptyGraph(int numNodes) {
+		this.numNodes = numNodes;
 		this.numEdges = 0;
-		adj = (Bag<Integer>[]) new Bag[numVertices];
-		for (int v = 0; v < numVertices; v++) {
-			adj[v] = new BagArray<Integer>();
+		adj = (Bag<Node>[]) new Bag[numNodes];
+		for (int v = 0; v < numNodes; v++) {
+			adj[v] = new BagArray<Node>();
 		}
 	}
 	
@@ -24,11 +24,11 @@ public class Graph {
 		adj[w].add(v);
 	}
 	
-	public Iterable<Integer> adj(int v){
+	public Iterable<Node> adj(int v){
 		return adj[v];
 	}
 	
-	public int numVertices() {
+	public int numNodes() {
 		return this.numNodes;
 	}
 	
@@ -43,10 +43,10 @@ public class Graph {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		String NEWLINE = System.getProperty("line.separator");
-		sb.append(numNodes + " vertices, " + numEdges + " edges " + NEWLINE);
+		sb.append(numNodes + " Nodes, " + numEdges + " edges " + NEWLINE);
 		for (int v = 0; v < numNodes; v++) {
 			sb.append( v + ": " );
-			for ( int w : adj[v] ) { // for every w that is adjacent to v
+			for ( Node w : adj[v] ) { // for every w that is adjacent to v
 				sb.append(w + " ");
 			}
 			sb.append(NEWLINE);

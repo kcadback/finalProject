@@ -11,13 +11,13 @@ package finalProject;
  
 import java.util.Iterator;
 
-public class BagTree<Item> implements Bag<Item>, Iterable<Item>{
+public class BagTree<Node> implements Bag<Node>, Iterable<Node>{
     
-    private Item[] items;        
+    private Node[] nodes;        
     private int size;
     
     public BagTree() {
-        items = (Item[]) (new Object[1]);  
+        nodes = (Node[]) (new Object[1]);  
         size = 0; //superfluous
     }
     
@@ -30,11 +30,11 @@ public class BagTree<Item> implements Bag<Item>, Iterable<Item>{
     }
     
     public void resize(int capacity) {
-        Item[] newArray = (Item[]) (new Object[capacity]);  
+    	Node[] newArray = (Node[]) (new Object[capacity]);  
         for (int i = 0; i < size; i++) {
             newArray[i] = items[i];
         }
-        items = newArray;
+        nodes = newArray;
     }
     
     public void add(Item item) {   
@@ -77,4 +77,10 @@ public class BagTree<Item> implements Bag<Item>, Iterable<Item>{
         System.out.println("Bag b contains " + b.size() + " items");
         System.out.println("Bag b is " + (b.isEmpty() ? "" : "not ") + "empty");
     }
+
+	@Override
+	public void add(Node item) {
+		// TODO Auto-generated method stub
+		
+	}
 }

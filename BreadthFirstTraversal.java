@@ -1,6 +1,6 @@
 package finalProject;
 
-public class BreadthFirstTraversal {
+public class BreadthFirstTraversal { 
 
     private boolean visited[];
     QueueArray<Integer> q = new QueueArray<Integer>();

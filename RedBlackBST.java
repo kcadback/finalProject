@@ -1,5 +1,6 @@
 package finalProject;
 
+import java.util.Stack;
 
 public class RedBlackBST<Key extends Comparable<Key>, Value> {
     
@@ -16,9 +17,9 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         Node right;
         int size;
         boolean color;
-        Bag adj;
+        BagArray adj;
         
-        Node(Key key, Value val, int size, boolean color, Bag adj) {
+        Node(Key key, Value val, int size, boolean color, BagArray adj) {
             this.key = key;
             this.val = val;
             this.size = size;
@@ -79,7 +80,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     
     private Node addUser(Node h, Key key, Value val) {
         if (h == null) {
-        	BagArray<RedBlackBST<Key, Value>.Node> b = new BagArray<Node>();
+        	BagArray<Key> b = new BagArray<Key>();
             return new Node(key,val,1,RED,b);
             }
         int cmp = key.compareTo(h.key);
@@ -102,75 +103,47 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
     
     public Value searchFriend(Key key) {
-		return searchFriend(root, key);
+		return search(root, key).val;
 	}
     
-    public Bag searchBag(Key key) {
-		return searchBag(root, key);
+    public BagArray searchBagArray(Key key) {
+		return search(root, key).adj;
 	}
-    
-	
-    ////////////////////COMBINE SEARCH METHODS////////////////
-	private Value searchFriend(Node n, Key key) {
+   
+	private Node search(Node n, Key key) {
 		if ( n == null ) return null;	//key not found
 		int cmp = key.compareTo(n.key);
 		if ( cmp < 0 )
-			return searchFriend(n.left, key);
+			return search(n.left, key);
 		else if ( cmp > 0)
-			return searchFriend(n.right, key);
-		else
-			return n.val;
-	}
-	
-	private Bag searchBag(Node n, Key key) {
-		if ( n == null ) return null;	//key not found
-		int cmp = key.compareTo(n.key);
-		if ( cmp < 0 )
-			return searchBag(n.left, key);
-		else if ( cmp > 0)
-			return searchBag(n.right, key);
-		else
-			return n.adj;
-	}
-	
-	private Node getNode(Key key) {
-		return getNode(root, key);
-	}
-	
-	private Node getNode(Node n, Key key) {
-		if ( n == null ) return null;	//key not found
-		int cmp = key.compareTo(n.key);
-		if ( cmp < 0 )
-			return getNode(n.left, key);
-		else if ( cmp > 0)
-			return getNode(n.right, key);
+			return search(n.right, key);
 		else
 			return n;
 	}
-   
-	
+ 
 	public void addFriend(Key v, Key w) {
-		Bag b = searchBag(v);
-		for (Node n : b ) {
-			if (  ) { //friends already
+		BagArray b = searchBagArray(v);
+		for (Key key : b ) {  //////////////////HELP//////////////////////////////////////////////
+			if ( key.equals(w) ) { //friends already
 				return;
 			}
 		}
 		//not friends, add
-		searchBag(v).add(getNode(w));
-		searchBag(w).add(getNode(v));
+		searchBagArray(v).add(w);
+		searchBagArray(w).add(v);
 		
 	}
 	
-	private void addFriend(Node v, Node w) {
-		searchBag(v);
-		
-		
-		
-		
-//    	adj[v].add(w);
-//		adj[w].add(v);
+	public void removeFriend(Key v, Key w) {
+		BagArray b = searchBagArray(v);
+		for (Key key : b ) {  //////////////////HELP//////////////////////////////////////////////
+			if ( key.equals(w) ) { // friends
+				searchBagArray(v).delete(w);
+				searchBagArray(w).delete(v);
+			}
+		}
 	}
+	
 	
 	
 	
@@ -188,6 +161,53 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         enqueueKeysInOrderFromNode(n.right,q);
     }
     
+    
+    
+    private class BreadthFirstPaths {
+        
+        private boolean[] visited;
+        private int[] edgeTo;
+        private final int source;
+        
+        public BreadthFirstPaths(Key key) {
+            visited = new boolean[root.size];
+            edgeTo = new int[root.size];
+            this.source = source;
+            bfs(key);
+        }
+        
+        private void bfs(Key key) {
+            QueueArray<Integer> queue = new QueueArray<Integer>();
+            visited[key] = true;
+            queue.enqueue(source);
+            while (!queue.isEmpty()) {
+                int v = queue.dequeue();
+                for (int w : g.adj(v)) {
+                    if (! visited[w]) {
+                        edgeTo[w] = v;
+                        visited[w] = true;
+                        queue.enqueue(w);
+                    }
+                }
+            }
+        }
+        
+        public boolean hasPathTo(int v) {
+            return visited[v];
+        }
+        
+        public Iterable<Integer> pathTo(int v) {
+            if (!hasPathTo(v)) return null;
+            Stack<Integer> path = new Stack<Integer>();
+            for (int x = v; x != source; x = edgeTo[x]) {
+                path.push(x);
+            }
+            path.push(source);
+            return path;
+        }
+    
+    
+    
     public static void main(String[] args) {
             RedBlackBST<String,String> rbt = new RedBlackBST<String,String>();
         String[] strsToPut = "S O R T E X A M P L E".split(" ");
@@ -201,3 +221,8 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
 }
+
+
+
+
+
